@@ -1,19 +1,25 @@
 NVCC = nvcc
 TARGET = main
+SRC_DIR = src
+BIN_DIR = bin
+OUT_DIR = outputs
 ARCH = -gencode arch=compute_61,code=sm_61
+
+$(shell mkdir -p $(BIN_DIR) $(OUT_DIR))
 
 all: $(TARGET)
 
-$(TARGET): main.cu
-	$(NVCC) $(ARCH) --std=c++11 -o $(TARGET) main.cu
+$(TARGET): $(SRC_DIR)/main.cu
+	$(NVCC) $(ARCH) --std=c++11 -o $(BIN_DIR)/$(TARGET) $(SRC_DIR)/main.cu
 
 run: $(TARGET)
-	./$(TARGET)
+	./$(BIN_DIR)/$(TARGET)
 
-debug: main.cu
-	$(NVCC) $(ARCH) --std=c++11 -g -G -o $(TARGET) main.cu
+debug: $(SRC_DIR)/main.cu
+	$(NVCC) $(ARCH) --std=c++11 -g -G -o $(BIN_DIR)/$(TARGET) $(SRC_DIR)/main.cu
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(BIN_DIR)/$(TARGET) *.o
+	rm -f $(OUT_DIR)/*
 
 .PHONY: all run debug clean
