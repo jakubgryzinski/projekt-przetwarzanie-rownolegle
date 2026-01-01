@@ -26,3 +26,12 @@ make clean
 ```
 nvcc main.cu -o main && ./main
 ```
+
+#### Tests
+```
+make test
+```
+
+```
+make test ARGS="512"
+```
